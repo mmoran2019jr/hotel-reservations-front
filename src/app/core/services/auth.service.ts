@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.model';
+import { environment } from '../../../environments/enviroment';
 
 const TOKEN_KEY = 'hotel_token';
 const USER_KEY = 'hotel_user';
@@ -11,7 +12,7 @@ const USER_KEY = 'hotel_user';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8081/api/auth';
+  private apiUrl = `${environment.apiBaseUrl}/auth`;
 
   private currentUserSubject = new BehaviorSubject<AuthResponse | null>(this.getStoredUser());
   currentUser$ = this.currentUserSubject.asObservable();
