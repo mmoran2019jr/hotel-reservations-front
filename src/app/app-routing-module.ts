@@ -21,12 +21,12 @@ const routes: Routes =
   },
   {
     path: '',
-    redirectTo: 'rooms',
+    redirectTo: '/rooms',
     pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'rooms',
+    redirectTo: '/rooms',
   },
 ];
 
