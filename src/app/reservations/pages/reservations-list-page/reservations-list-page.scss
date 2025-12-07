@@ -1,0 +1,27 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.edit-dates-form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.confirmed {
+  color: green;
+}
+
+.cancelled {
+  color: red;
+}
+
+.pending {
+  color: orange;
+}
+
+.checked_out {
+  color: #555;
+}

@@ -1,0 +1,61 @@
+.room-detail-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.room-card {
+  width: 100%;
+  max-width: 900px;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.room-main-image {
+  width: 260px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.amenities {
+  margin-top: 16px;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.amenity {
+  padding: 4px 8px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.05);
+  font-size: 12px;
+}
+
+.reservation-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.price-preview {
+  min-width: 180px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.btn-spinner {
+  margin-right: 8px;
+}

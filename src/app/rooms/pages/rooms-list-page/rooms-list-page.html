@@ -1,0 +1,104 @@
+<mat-card>
+  <h2>Habitaciones disponibles</h2>
+
+  <form [formGroup]="filterForm" class="filters-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo</mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="">Todos</mat-option>
+        <mat-option *ngFor="let t of roomTypes" [value]="t">{{ t }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Precio mínimo</mat-label>
+      <input matInput type="number" formControlName="minPrice" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Precio máximo</mat-label>
+      <input matInput type="number" formControlName="maxPrice" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Capacidad mínima</mat-label>
+      <input matInput type="number" formControlName="minCapacity" />
+    </mat-form-field>
+
+    <mat-checkbox formControlName="onlyAvailable">
+      Solo activas
+    </mat-checkbox>
+  </form>
+
+  <div class="loading-container" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+
+  <div *ngIf="!loading && rooms.length === 0">
+    No se encontraron habitaciones con esos filtros.
+  </div>
+
+  <table mat-table [dataSource]="rooms" class="mat-elevation-z2" *ngIf="!loading && rooms.length > 0">
+
+    <!-- Imagen -->
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef> Imagen </th>
+      <td mat-cell *matCellDef="let room">
+        <img
+          *ngIf="room.imageUrls && room.imageUrls.length > 0"
+          [src]="room.imageUrls[0]"
+          alt="{{ room.name }}"
+          class="room-image" />
+      </td>
+    </ng-container>
+
+    <!-- Nombre -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+      <td mat-cell *matCellDef="let room">{{ room.name }}</td>
+    </ng-container>
+
+    <!-- Tipo -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Tipo </th>
+      <td mat-cell *matCellDef="let room">{{ room.type }}</td>
+    </ng-container>
+
+    <!-- Precio -->
+    <ng-container matColumnDef="price">
+      <th mat-header-cell *matHeaderCellDef> Precio / noche </th>
+      <td mat-cell *matCellDef="let room">
+        {{ room.pricePerNight | currency:'GTQ':'symbol':'1.0-0' }}
+      </td>
+    </ng-container>
+
+    <!-- Capacidad -->
+    <ng-container matColumnDef="capacity">
+      <th mat-header-cell *matHeaderCellDef> Capacidad </th>
+      <td mat-cell *matCellDef="let room">
+        {{ room.capacity }} personas
+      </td>
+    </ng-container>
+
+    <!-- Acciones -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let room">
+        <button mat-button color="primary" [routerLink]="['/rooms', room.id]">
+          Ver detalles
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [length]="totalElements"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[3, 6, 9, 12]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</mat-card>

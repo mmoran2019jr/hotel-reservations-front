@@ -1,0 +1,54 @@
+<div class="auth-wrapper">
+  <mat-card class="auth-card">
+    <h2>Crear cuenta</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+        <mat-error *ngIf="form.controls.name.hasError('required')">
+          El nombre es obligatorio
+        </mat-error>
+        <mat-error *ngIf="form.controls.name.hasError('minlength')">
+          Mínimo 2 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput formControlName="email" type="email" />
+        <mat-error *ngIf="form.controls.email.hasError('required')">
+          El correo es obligatorio
+        </mat-error>
+        <mat-error *ngIf="form.controls.email.hasError('email')">
+          Correo inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input matInput formControlName="password" type="password" />
+        <mat-error *ngIf="form.controls.password.hasError('required')">
+          La contraseña es obligatoria
+        </mat-error>
+        <mat-error *ngIf="form.controls.password.hasError('minlength')">
+          Mínimo 4 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loading">
+        <mat-progress-spinner
+          *ngIf="loading"
+          mode="indeterminate"
+          [diameter]="20"
+          class="btn-spinner">
+        </mat-progress-spinner>
+        <span *ngIf="!loading">Registrarme</span>
+      </button>
+    </form>
+
+    <button mat-button color="accent" class="full-width" (click)="goToLogin()">
+      Ya tengo cuenta
+    </button>
+  </mat-card>
+</div>
