@@ -1,64 +1,61 @@
-<<<<<<< HEAD
-# HotelFront
+# 🌐 Hotel Reservations SPA – Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.4.
+Frontend del sistema de reservas de hotel desarrollado en **Angular 20**, consumiendo la API REST del backend. Implementa autenticación JWT, gestión de habitaciones, reservas y checkout.
 
-## Development server
+---
 
-To start a local development server, run:
+## 🚀 Tecnologías
 
-```bash
-ng serve
-```
+- Angular 20  
+- TypeScript  
+- RxJS  
+- Angular Material  
+- SCSS  
+- JWT Interceptor  
+- Lazy Loading + Modularización avanzada  
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## 📌 Funcionalidades principales
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 🏨 Habitaciones
+- Listado con paginación
+- Filtros por tipo, precio, capacidad
+- Vista de detalle
+- Cálculo dinámico de noches y precio
 
-```bash
-ng generate component component-name
-```
+### 📅 Reservas
+- Crear reserva desde el detalle
+- Ver reservas del usuario
+- Modificar fechas
+- Cancelar reserva
+- Checkout
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 🔐 Autenticación
+- Login y registro
+- Manejo de sesión persistente con JWT
+- Guards para rutas protegidas
+- Interceptor para inyectar token automáticamente
 
-```bash
-ng generate --help
-```
+### 🧩 UX/UI
+- Angular Material
+- Spinners, Snackbars, feedback visual
+- Errores globales manejados desde interceptor
 
-## Building
+---
 
-To build the project run:
+## ▶️ Ejecutar en local
 
-```bash
-ng build
-```
+### Requisitos
+- Node 20+
+- Angular CLI 20+
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Instalar dependencias
+npm install
 
-## Running unit tests
+###Iniciar servidor de desarrollo
+ng serve -o
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
-# hotel-reservations-front
-Frontend aplicacion hotel Angular
->>>>>>> e19dfba5ada44c5bfe500d80bf39a50cddc8c74c
+###Aplicación disponible en:
+http://localhost:4200
