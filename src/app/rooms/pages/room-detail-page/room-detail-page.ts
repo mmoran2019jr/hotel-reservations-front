@@ -134,32 +134,50 @@ export class RoomDetailPage implements OnInit {
 
     this.creating = true;
 
-    this.reservationService.createReservation(payload).subscribe({
-      next: () => {
-        this.creating = false;
+    Swal.fire({
+      title: 'Confirmar reservación',
+      text: '¿Deseas confirmar esta reservación con las fechas seleccionadas?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, reservar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33'
+    }).then((result) => {
 
-        Swal.fire({
-          title: '¡Reserva creada!',
-          text: 'La reservación se ha registrado correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Continuar',
-          confirmButtonColor: '#3085d6',
-        }).then(() => {
-          this.router.navigate(['/reservations']);
-        });
-      },
-
-      error: () => {
-        this.creating = false;
-
-        Swal.fire({
-          title: 'info',
-          text: 'La habitacion no se encuentra disponible en las fechas seleccionadas.',
-          icon: 'info',
-          confirmButtonText: 'Intentar de nuevo',
-          confirmButtonColor: '#d33',
-        });
+      if (!result.isConfirmed) {
+        return; // Usuario canceló → no hace nada
       }
+
+      // SOLO si confirma, se llama a la API
+      this.creating = true;
+
+      this.reservationService.createReservation(payload).subscribe({
+        next: () => {
+          this.creating = false;
+
+          Swal.fire({
+            title: '¡Reserva creada!',
+            text: 'La reservación se ha registrado correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Continuar',
+            confirmButtonColor: '#3085d6',
+          }).then(() => this.router.navigate(['/reservations']));
+        },
+
+        error: () => {
+          this.creating = false;
+
+          Swal.fire({
+            title: 'Habitación no disponible',
+            text: 'La habitación no se encuentra disponible en las fechas seleccionadas.',
+            icon: 'info',
+            confirmButtonText: 'Intentar de nuevo',
+            confirmButtonColor: '#d33',
+          });
+        }
+      });
+
     });
   }
 }
