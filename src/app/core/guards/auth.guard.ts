@@ -8,7 +8,8 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-
+// Guard que protege rutas que requieren autenticacion
+// Valida autenticacion de usuario
 @Injectable({
   providedIn: 'root',
 })

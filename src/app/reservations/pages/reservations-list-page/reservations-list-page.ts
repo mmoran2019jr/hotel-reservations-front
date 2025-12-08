@@ -5,8 +5,9 @@ import { AuthService } from '../../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { catchError, Observable, of, Subject, switchMap, tap } from 'rxjs';
+import Swal from 'sweetalert2';
 
-
+//Componente de reservaciones y sus metodos correspondientes
 @Component({
   selector: 'app-reservations-list-page',
   standalone: false,
@@ -135,41 +136,104 @@ export class ReservationsListPage implements OnInit {
     this.reservationService.updateReservation(reservation.id, payload).subscribe({
       next: () => {
         this.updating = false;
-        this.snackBar.open('Reserva actualizada', 'Cerrar', { duration: 2500 });
         this.editingId = null;
+
+        Swal.fire({
+          title: 'Reserva actualizada',
+          text: 'Los cambios han sido guardados correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#3085d6',
+          timer: 2000
+        });
+
         this.reload$.next();
       },
       error: () => {
         this.updating = false;
+
+        Swal.fire({
+          title: 'Ocurrió un error',
+          text: 'No se pudo actualizar la reserva.',
+          icon: 'error',
+          confirmButtonText: 'Cerrar',
+          confirmButtonColor: '#d33'
+        });
       },
     });
   }
 
   cancelReservation(id: string): void {
-    if (!confirm('¿Seguro que deseas cancelar esta reserva?')) {
-      return;
-    }
+    Swal.fire({
+      title: '¿Cancelar reserva?',
+      text: 'Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No, volver',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+    }).then((result) => {
+      if (!result.isConfirmed) return;
 
-    this.reservationService.cancelReservation(id).subscribe({
-      next: () => {
-        this.snackBar.open('Reserva cancelada', 'Cerrar', { duration: 2500 });
-        this.reload$.next();
-      },
-      error: () => {},
+      this.reservationService.cancelReservation(id).subscribe({
+        next: () => {
+          Swal.fire({
+            title: 'Reserva cancelada',
+            text: 'La reserva ha sido cancelada correctamente.',
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            timer: 2000
+          });
+
+          this.reload$.next();
+        },
+        error: () => {
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo cancelar la reserva.',
+            icon: 'error',
+            confirmButtonText: 'Cerrar'
+          });
+        },
+      });
     });
   }
 
   checkout(reservation: Reservation): void {
-    if (!confirm('¿Finalizar esta reserva (checkout)?')) {
-      return;
-    }
+    Swal.fire({
+      title: '¿Finalizar reserva?',
+      text: 'Se realizará el checkout de esta reserva.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, finalizar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (!result.isConfirmed) return;
 
-    this.reservationService.checkoutReservation(reservation.id).subscribe({
-      next: () => {
-        this.snackBar.open('Reserva finalizada', 'Cerrar', { duration: 2500 });
-        this.reload$.next();
-      },
-      error: () => {},
+      this.reservationService.checkoutReservation(reservation.id).subscribe({
+        next: () => {
+          Swal.fire({
+            title: 'Reserva finalizada',
+            text: 'El checkout se ha realizado correctamente.',
+            icon: 'success',
+            timer: 2000,
+            confirmButtonText: 'Aceptar',
+          });
+
+          this.reload$.next();
+        },
+        error: () => {
+          Swal.fire({
+            title: 'Error',
+            text: 'No se pudo completar el checkout.',
+            icon: 'error',
+            confirmButtonText: 'Cerrar',
+          });
+        },
+      });
     });
   }
 

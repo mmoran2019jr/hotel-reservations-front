@@ -9,7 +9,7 @@ RUN npm install
 COPY . .
 RUN npm run build -- --configuration production
 
-# --------- Etapa 2: Nginx para servir la SPA ---------
+# --------- Etapa 2: Nginx para alimentar SPA ---------
 FROM nginx:stable-alpine
 
 WORKDIR /usr/share/nginx/html

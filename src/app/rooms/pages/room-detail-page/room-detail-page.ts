@@ -6,6 +6,7 @@ import { FormBuilder, Validators, AbstractControl, ValidationErrors } from '@ang
 import { ReservationService } from '../../../core/services/reservation.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-room-detail-page',
@@ -30,6 +31,7 @@ export class RoomDetailPage implements OnInit {
   private fb = inject(FormBuilder);
   private snackBar = inject(MatSnackBar);
 
+  //Validacion de formulario / Formulario reactivo
   form = this.fb.group({
     checkIn: [null as Date | null, [Validators.required]],
     checkOut: [null as Date | null, [Validators.required]],
@@ -122,13 +124,29 @@ export class RoomDetailPage implements OnInit {
     this.reservationService.createReservation(payload).subscribe({
       next: () => {
         this.creating = false;
-        this.snackBar.open('Reserva creada correctamente', 'Cerrar', { duration: 2500 });
-        this.router.navigate(['/reservations']);
+
+        Swal.fire({
+          title: '¡Reserva creada!',
+          text: 'La reservación se ha registrado correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Continuar',
+          confirmButtonColor: '#3085d6',
+        }).then(() => {
+          this.router.navigate(['/reservations']);
+        });
       },
+
       error: () => {
         this.creating = false;
-        // El interceptor ya maneja el mensaje genérico
-      },
+
+        Swal.fire({
+          title: 'info',
+          text: 'La habitacion no se encuentra disponible en las fechas seleccionadas.',
+          icon: 'info',
+          confirmButtonText: 'Intentar de nuevo',
+          confirmButtonColor: '#d33',
+        });
+      }
     });
   }
 }

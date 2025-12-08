@@ -6,7 +6,7 @@ import { environment } from '../../../environments/enviroment';
 
 const TOKEN_KEY = 'hotel_token';
 const USER_KEY = 'hotel_user';
-
+//Registro , Login de usuario, guarda token en navegador
 @Injectable({
   providedIn: 'root',
 })

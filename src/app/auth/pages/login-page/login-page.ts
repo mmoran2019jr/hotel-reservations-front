@@ -60,7 +60,6 @@ export class LoginPage {
       error: () => {
         this.loading = false;
 
-        // Opcional: también puedes mejorar el error con SweetAlert2 (sin romper nada)
         Swal.fire({
           icon: 'error',
           title: 'Error',

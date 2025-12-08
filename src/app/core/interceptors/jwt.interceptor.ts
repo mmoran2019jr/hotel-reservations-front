@@ -18,6 +18,7 @@ export class JwtInterceptor implements HttpInterceptor {
     private snackBar: MatSnackBar,
   ) {}
 
+  //Interceptor, valida token JWT en cada peticion HTTP
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.authService.getToken();
 

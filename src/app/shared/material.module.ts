@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+//Exportamos los componentes necesarios de Angular Material
 @NgModule({
   exports: [
     MatToolbarModule,

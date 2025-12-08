@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoomsListPage } from './pages/rooms-list-page/rooms-list-page';
 import { RoomDetailPage } from './pages/room-detail-page/room-detail-page';
 
+//Rutas lazy de los compontes de habitaciones
 const routes: Routes = [
   {
     path: '',

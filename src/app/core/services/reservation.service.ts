@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Reservation } from '../models/reservation.model';
 
 import { environment } from '../../../environments/enviroment';
-
+//Servicios de reservaciones / Valida token JWT valido
 @Injectable({
   providedIn: 'root',
 })

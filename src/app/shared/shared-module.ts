@@ -5,7 +5,6 @@ import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
-    // aquí luego van componentes/pipes compartidos
   ],
   imports: [
     CommonModule,
@@ -18,7 +17,6 @@ import { MaterialModule } from './material.module';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    // y componentes/pipes compartidos cuando los tengamos
   ],
 })
 export class SharedModule {}

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Room } from '../models/room.model';
 import { PageResponse } from '../models/pagination.model';
 import { environment } from '../../../environments/enviroment';
-
+// Servicios de habitaciones
 @Injectable({
   providedIn: 'root',
 })

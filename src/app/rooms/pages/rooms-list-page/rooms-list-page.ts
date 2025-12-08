@@ -19,11 +19,13 @@ export class RoomsListPage implements OnInit {
 
   displayedColumns = ['image', 'name', 'type', 'price', 'capacity', 'actions'];
 
+  //Tipos de habitaciones para filtro
   roomTypes: string[] = ['SIMPLE', 'DOBLE', 'SUITE'];
 
   private fb = inject(FormBuilder);
   private roomService= inject(RoomService);
 
+  //Campos de filtrado de busqueda
   filterForm = this.fb.group({
     type: [''],
     minPrice: [''],
@@ -33,6 +35,7 @@ export class RoomsListPage implements OnInit {
   });
 
 
+  //Carga de rooms en ngOnInit
   ngOnInit(): void {
     this.loadRooms();
 
@@ -76,6 +79,7 @@ export class RoomsListPage implements OnInit {
       });
   }
 
+  //Paginado de la tabla
   onPageChange(event: any): void {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;

@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
-
+//Utilizamos nuestra clase jwt para validacion de tokens en las peticiones http
 @NgModule({
   imports: [
     HttpClientModule,
