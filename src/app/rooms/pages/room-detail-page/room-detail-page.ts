@@ -53,6 +53,7 @@ export class RoomDetailPage implements OnInit {
     });
   }
 
+  // Carga de datos de la habitación y actualiza precios
   loadRoom(id: string): void {
     this.loadingRoom = true;
     this.roomService.getRoomById(id).subscribe({
@@ -134,6 +135,7 @@ export class RoomDetailPage implements OnInit {
 
     this.creating = true;
 
+    //Modal de confirmacion de reservacion
     Swal.fire({
       title: 'Confirmar reservación',
       text: '¿Deseas confirmar esta reservación con las fechas seleccionadas?',
@@ -146,10 +148,9 @@ export class RoomDetailPage implements OnInit {
     }).then((result) => {
 
       if (!result.isConfirmed) {
-        return; // Usuario canceló → no hace nada
+        return; // si el usuario cancela, no hacer nada
       }
 
-      // SOLO si confirma, se llama a la API
       this.creating = true;
 
       this.reservationService.createReservation(payload).subscribe({
@@ -162,6 +163,8 @@ export class RoomDetailPage implements OnInit {
             icon: 'success',
             confirmButtonText: 'Continuar',
             confirmButtonColor: '#3085d6',
+            timer: 1500,
+            timerProgressBar: true
           }).then(() => this.router.navigate(['/reservations']));
         },
 
