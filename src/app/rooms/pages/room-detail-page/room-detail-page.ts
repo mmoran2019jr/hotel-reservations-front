@@ -69,6 +69,7 @@ export class RoomDetailPage implements OnInit {
     });
   }
 
+  //Actualiza precios
   updatePricePreview(): void {
     if (!this.room) {
       this.nights = null;
@@ -90,6 +91,7 @@ export class RoomDetailPage implements OnInit {
     }
   }
 
+  //Crea una reservacion
   submitReservation(): void {
     if (!this.room) {
       return;
@@ -129,7 +131,7 @@ export class RoomDetailPage implements OnInit {
     const payload = {
       roomId: this.room.id,
       userId: userId,
-      checkInDate: checkIn.toISOString().substring(0, 10),  // yyyy-MM-dd
+      checkInDate: checkIn.toISOString().substring(0, 10),  // formato yyyy-MM-dd
       checkOutDate: checkOut.toISOString().substring(0, 10),
     };
 
