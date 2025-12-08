@@ -7,7 +7,7 @@ import { CoreModule } from './core/core-module';
 import { SharedModule } from './shared/shared-module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
-//NgModule principal de la aplicacion para imports de librearias necesarias
+//NgModule principal de la aplicacion para imports de librerias necesarias
 @NgModule({
   declarations: [
     App

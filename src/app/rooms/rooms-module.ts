@@ -17,6 +17,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { MatDivider } from '@angular/material/divider';
   imports: [
     SharedModule,
     RoomsRoutingModule,
-    ReactiveFormsModule,           // SIN ESTO: "Can't bind to 'formGroup'"
+    ReactiveFormsModule,
 
     MatCardModule,
     MatFormFieldModule,
@@ -38,7 +39,8 @@ import { MatDivider } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDivider
+    MatDivider,
+    MatIcon
 
   ],
 })

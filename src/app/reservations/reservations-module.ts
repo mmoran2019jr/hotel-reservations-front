@@ -16,7 +16,7 @@ import { SharedModule } from '../shared/shared-module';
   imports: [
     CommonModule,
     SharedModule,
-    ReactiveFormsModule,           // SIN ESTO: "Can't bind to 'formGroup'"
+    ReactiveFormsModule,
     ReservationsRoutingModule
   ]
 })

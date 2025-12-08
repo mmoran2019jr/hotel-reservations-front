@@ -102,10 +102,23 @@ export class RoomDetailPage implements OnInit {
 
     const userId = this.authService.getCurrentUserId();
     if (!userId) {
-      this.snackBar.open('Debes iniciar sesión para reservar', 'Cerrar', { duration: 2500 });
-      this.router.navigate(['/auth'], {
-        queryParams: { returnUrl: this.router.url },
+      Swal.fire({
+        title: 'Inicia sesión',
+        text: 'Debes iniciar sesión para reservar una habitación.',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: 'Ir a iniciar sesión',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#aaa'
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.router.navigate(['/auth'], {
+            queryParams: { returnUrl: this.router.url },
+          });
+        }
       });
+
       return;
     }
 

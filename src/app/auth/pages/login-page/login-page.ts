@@ -14,7 +14,6 @@ import Swal from 'sweetalert2';
 export class LoginPage {
   loading = false;
 
-  // ¡Así se hace ahora! (Angular 14+)
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -42,7 +41,6 @@ export class LoginPage {
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') || '/rooms';
         this.router.navigateByUrl(returnUrl);
 
-        // Cambiamos solo esta línea: en vez de snackBar → SweetAlert2
         Swal.fire({
           icon: 'success',
           title: '¡Sesión iniciada!',

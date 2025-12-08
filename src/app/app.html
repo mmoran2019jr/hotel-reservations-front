@@ -1,20 +1,53 @@
 <mat-toolbar color="primary" class="app-toolbar">
-  <span class="app-title" routerLink="/rooms" style="cursor: pointer">
+  <span
+    class="app-title clickable"
+    routerLink="/rooms"
+  >
+    <mat-icon class="app-title-logo">spa</mat-icon>
     Hotel SPA
   </span>
 
   <span class="spacer"></span>
 
-  <a mat-button routerLink="/rooms">Habitaciones</a>
-  <a mat-button routerLink="/reservations" *ngIf="(currentUser$ | async)">Mis Reservas</a>
+  <div class="nav-links">
+    <a
+      mat-button
+      routerLink="/rooms"
+      routerLinkActive="active-link"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Habitaciones
+    </a>
 
-  <button mat-button color="accent" *ngIf="!(currentUser$ | async)" routerLink="/auth">
-    Iniciar sesión
-  </button>
+    <a
+      mat-button
+      routerLink="/reservations"
+      *ngIf="(currentUser$ | async)"
+      routerLinkActive="active-link"
+    >
+      Mis reservas
+    </a>
+  </div>
 
-  <button mat-button color="warn" *ngIf="(currentUser$ | async)" (click)="logout()">
-    Cerrar sesión
-  </button>
+  <div class="user-actions">
+    <button
+      mat-stroked-button
+      color="accent"
+      *ngIf="!(currentUser$ | async)"
+      routerLink="/auth"
+    >
+      Iniciar sesión
+    </button>
+
+    <button
+      mat-flat-button
+      color="warn"
+      *ngIf="(currentUser$ | async)"
+      (click)="logout()"
+    >
+      Cerrar sesión
+    </button>
+  </div>
 </mat-toolbar>
 
 <div class="app-container">

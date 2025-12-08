@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { catchError, Observable, of, Subject, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { RoomService } from '../../../core/services/room.service';
+
 
 //Componente de reservaciones y sus metodos correspondientes
 @Component({
@@ -33,6 +35,7 @@ export class ReservationsListPage implements OnInit {
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
   private fb = inject(FormBuilder);
+  private roomService = inject(RoomService);
 
   ngOnInit(): void {
     this.reload$
@@ -41,7 +44,7 @@ export class ReservationsListPage implements OnInit {
       )
       .subscribe();
 
-    // primer load
+      // Carga inicial
     this.reload$.next();
   }
 
@@ -50,6 +53,7 @@ export class ReservationsListPage implements OnInit {
     this.loading = true;
     const userId = this.authService.getCurrentUserId();
 
+    //validacion si el usuario no esta logueado
     if (!userId) {
       this.loading = false;
       this.snackBar.open('Debes iniciar sesión para ver tus reservas', 'Cerrar', {
@@ -64,7 +68,7 @@ export class ReservationsListPage implements OnInit {
       tap(reservations => {
         this.reservations = reservations;
         this.setupForms();
-        this.loading = false;
+        this.loading = false; // 👈 aquí
       }),
       catchError(err => {
         console.error('Error cargando reservas:', err);
@@ -73,8 +77,7 @@ export class ReservationsListPage implements OnInit {
           duration: 4000,
         });
         this.reservations = [];
-        // Importante: devolver un Observable aunque haya error
-        return of([]); // o return EMPTY; si prefieres que no emita nada
+        return of([]);
       })
     );
   }
@@ -153,11 +156,11 @@ export class ReservationsListPage implements OnInit {
         this.updating = false;
 
         Swal.fire({
-          title: 'Ocurrió un error',
-          text: 'No se pudo actualizar la reserva.',
-          icon: 'error',
+          title: 'Info',
+          text: 'Estas fechas no estan disponibles para la habitación seleccionada.',
+          icon: 'info',
           confirmButtonText: 'Cerrar',
-          confirmButtonColor: '#d33'
+          confirmButtonColor: '#3085d6'
         });
       },
     });
@@ -240,9 +243,11 @@ export class ReservationsListPage implements OnInit {
   isEditable(reservation: Reservation): boolean {
     return reservation.status !== 'CANCELLED' && reservation.status !== 'CHECKED_OUT';
   }
+
+
 }
 
-/** Validador de rango de fechas (igual que en detalle de habitación) */
+/** Validador de rango de fechas (nivel angular) */
 export function dateRangeValidator(control: AbstractControl): ValidationErrors | null {
   const group = control as any;
   const checkIn: Date | null = group.get('checkIn')?.value;

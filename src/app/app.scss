@@ -2,11 +2,24 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
 }
 
 .app-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
+.app-title-logo {
+  font-size: 24px;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 .spacer {
@@ -15,4 +28,21 @@
 
 .app-container {
   padding: 16px;
+}
+
+/* Links Pages */
+.nav-links a[mat-button] {
+  font-weight: 500;
+  text-transform: none;
+}
+
+.nav-links a[mat-button].active-link {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Acciones del usuario */
+.user-actions button[mat-button] {
+  text-transform: none;
+  font-weight: 500;
+  margin-left: 8px;
 }

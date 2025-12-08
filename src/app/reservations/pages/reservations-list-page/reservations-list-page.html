@@ -1,113 +1,166 @@
-<mat-card>
-  <h2>Mis reservas</h2>
+<div class="page-wrapper">
+  <mat-card class="page-card">
+    <div class="page-header">
+      <div>
+        <h2 class="page-title">Mis reservas</h2>
+        <p class="page-subtitle">
+          Consulta, modifica o cancela tus reservas activas.
+        </p>
+      </div>
+    </div>
 
-  <div *ngIf="loading" class="loading-container">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-  </div>
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    </div>
 
-  <div *ngIf="!loading && reservations.length === 0">
-    No tienes reservas todavía.
-  </div>
+    <!-- Sin reservas -->
+    <div *ngIf="!loading && reservations.length === 0" class="state-message">
+      No tienes reservas todavía.
+    </div>
 
-  <table
-    mat-table
-    [dataSource]="reservations"
-    class="mat-elevation-z2"
-    *ngIf="!loading && reservations.length > 0">
+    <!-- Tabla -->
+    <table
+      mat-table
+      [dataSource]="reservations"
+      class="mat-elevation-z2"
+      *ngIf="!loading && reservations.length > 0">
 
-    <!-- RoomId (en un proyecto real podrías mostrar nombre de la habitación con un join extra) -->
-    <ng-container matColumnDef="roomId">
-      <th mat-header-cell *matHeaderCellDef> Habitación </th>
-      <td mat-cell *matCellDef="let r">
-        {{ r.roomId }}
-      </td>
-    </ng-container>
+      <!-- Habitación -->
+      <ng-container matColumnDef="roomId">
+        <th mat-header-cell *matHeaderCellDef> Habitación </th>
+        <td mat-cell *matCellDef="let r">
+          <div class="room-cell">
+            <span class="room-id">{{ r.roomName }}</span>
+          </div>
+        </td>
+      </ng-container>
 
-    <!-- Fechas (con edición) -->
-    <ng-container matColumnDef="dates">
-      <th mat-header-cell *matHeaderCellDef> Fechas </th>
-      <td mat-cell *matCellDef="let r">
-        <ng-container *ngIf="editingId !== r.id; else editDates">
-          {{ r.checkInDate }} → {{ r.checkOutDate }}
-        </ng-container>
-
-        <ng-template #editDates>
-          <ng-container *ngIf="getForm(r.id) as form">
-            <form [formGroup]="form" class="edit-dates-form" class="edit-dates-form">
-              <mat-form-field appearance="outline">
-                <mat-label>Entrada</mat-label>
-                <input matInput [matDatepicker]="pickerIn" formControlName="checkIn" />
-                <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
-                <mat-datepicker #pickerIn></mat-datepicker>
-              </mat-form-field>
-
-              <mat-form-field appearance="outline">
-                <mat-label>Salida</mat-label>
-                <input matInput [matDatepicker]="pickerOut" formControlName="checkOut" />
-                <mat-datepicker-toggle matSuffix [for]="pickerOut"></mat-datepicker-toggle>
-                <mat-datepicker #pickerOut></mat-datepicker>
-                <mat-error *ngIf="getForm(r.id)?.hasError('dateRange')">
-                  La salida debe ser posterior a la entrada
-                </mat-error>
-              </mat-form-field>
-            </form>\
-          </ng-container>
-        </ng-template>
-      </td>
-    </ng-container>
-
-    <!-- Total -->
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef> Total </th>
-      <td mat-cell *matCellDef="let r">
-        {{ r.totalPrice | currency:'GTQ':'symbol':'1.0-0' }}
-      </td>
-    </ng-container>
-
-    <!-- Status -->
-    <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef> Estado </th>
-      <td mat-cell *matCellDef="let r">
-        <span [ngClass]="r.status | lowercase">{{ r.status }}</span>
-      </td>
-    </ng-container>
-
-    <!-- Acciones -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> Acciones </th>
-      <td mat-cell *matCellDef="let r">
-        <!-- Editar / Guardar / Cancelar -->
-        <ng-container *ngIf="isEditable(r)">
-          <button mat-button color="primary" *ngIf="editingId !== r.id" (click)="startEdit(r.id)">
-            Modificar fechas
-          </button>
-
-          <ng-container *ngIf="editingId === r.id">
-            <button mat-button color="primary" (click)="saveChanges(r)" [disabled]="updating">
-              Guardar
-            </button>
-            <button mat-button (click)="cancelEdit()" [disabled]="updating">
-              Cancelar
-            </button>
+      <!-- Fechas -->
+      <ng-container matColumnDef="dates">
+        <th mat-header-cell *matHeaderCellDef> Fechas </th>
+        <td mat-cell *matCellDef="let r">
+          <ng-container *ngIf="editingId !== r.id; else editDates">
+            {{ r.checkInDate }} → {{ r.checkOutDate }}
           </ng-container>
 
-          <button mat-button color="warn" (click)="cancelReservation(r.id)">
-            Cancelar reserva
+          <ng-template #editDates>
+            <ng-container *ngIf="getForm(r.id) as form">
+              <form [formGroup]="form" class="edit-dates-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Entrada</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="pickerIn"
+                    formControlName="checkIn"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerIn></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Salida</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="pickerOut"
+                    formControlName="checkOut"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="pickerOut"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerOut></mat-datepicker>
+                  <mat-error *ngIf="getForm(r.id)?.hasError('dateRange')">
+                    La salida debe ser posterior a la entrada
+                  </mat-error>
+                </mat-form-field>
+              </form>
+            </ng-container>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Total -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef> Total </th>
+        <td mat-cell *matCellDef="let r">
+          <span class="reservation-price">
+            {{ r.totalPrice | currency:'GTQ':'symbol':'1.0-0' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let r">
+          <span
+            class="status-chip"
+            [ngClass]="{
+              'status-confirmed': r.status === 'CONFIRMED',
+              'status-cancelled': r.status === 'CANCELLED',
+              'status-pending': r.status === 'PENDING',
+              'status-checked-out': r.status === 'CHECKED_OUT'
+            }"
+          >
+            {{ r.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <td mat-cell *matCellDef="let r" class="actions-cell">
+          <!-- Editar / Guardar / Cancelar -->
+          <ng-container *ngIf="isEditable(r)">
+            <button
+              mat-stroked-button
+              color="primary"
+              *ngIf="editingId !== r.id"
+              (click)="startEdit(r.id)"
+            >
+              Modificar fechas
+            </button>
+
+            <ng-container *ngIf="editingId === r.id">
+              <button
+                mat-flat-button
+                color="primary"
+                (click)="saveChanges(r)"
+                [disabled]="updating"
+              >
+                Guardar
+              </button>
+              <button
+                mat-button
+                (click)="cancelEdit()"
+                [disabled]="updating"
+              >
+                Cancelar
+              </button>
+            </ng-container>
+
+            <button
+              mat-button
+              color="warn"
+              (click)="cancelReservation(r.id)"
+            >
+              Cancelar reserva
+            </button>
+          </ng-container>
+
+          <!-- Checkout (valida estado confirmed) -->
+          <button
+            mat-button
+            color="accent"
+            *ngIf="r.status === 'CONFIRMED'"
+            (click)="checkout(r)"
+          >
+            Checkout
           </button>
-        </ng-container>
+        </td>
+      </ng-container>
 
-        <!-- Checkout solo si está CONFIRMED -->
-        <button
-          mat-button
-          color="accent"
-          *ngIf="r.status === 'CONFIRMED'"
-          (click)="checkout(r)">
-          Checkout
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
-</mat-card>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card>
+</div>

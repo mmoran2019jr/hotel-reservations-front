@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Room } from '../models/room.model';
 import { PageResponse } from '../models/pagination.model';
 import { environment } from '../../../environments/enviroment';
-// Servicios de habitaciones
+// Servicios de habitaciones Api
 @Injectable({
   providedIn: 'root',
 })
@@ -45,7 +45,6 @@ export class RoomService {
     return this.http.get<Room>(`${this.apiUrl}/${id}`);
   }
 
-  // opcionales (si vas a tener CRUD desde el front):
   createRoom(room: Partial<Room>): Observable<Room> {
     return this.http.post<Room>(this.apiUrl, room);
   }

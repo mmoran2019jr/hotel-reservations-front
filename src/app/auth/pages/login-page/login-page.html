@@ -1,8 +1,18 @@
 <div class="auth-wrapper">
-  <mat-card class="auth-card">
-    <h2>Iniciar sesión</h2>
+  <mat-card class="auth-card mat-elevation-z4">
+    <div class="auth-header">
+      <div class="auth-icon">
+        <mat-icon>login</mat-icon>
+      </div>
+      <div>
+        <h2 class="auth-title">Iniciar sesión</h2>
+        <p class="auth-subtitle">
+          Accede para gestionar tus reservas y ver tu historial.
+        </p>
+      </div>
+    </div>
 
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="auth-form">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo electrónico</mat-label>
         <input matInput formControlName="email" type="email" />
@@ -25,7 +35,13 @@
         </mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loading">
+      <button
+        mat-flat-button
+        color="primary"
+        class="full-width auth-primary-btn"
+        type="submit"
+        [disabled]="loading || form.invalid"
+      >
         <mat-progress-spinner
           *ngIf="loading"
           mode="indeterminate"
@@ -36,8 +52,11 @@
       </button>
     </form>
 
-    <button mat-button color="accent" class="full-width" (click)="goToRegister()">
-      Crear cuenta nueva
-    </button>
+    <div class="auth-footer">
+      <span>¿Aún no tienes cuenta?</span>
+      <button mat-button color="accent" (click)="goToRegister()">
+        Crear cuenta nueva
+      </button>
+    </div>
   </mat-card>
 </div>

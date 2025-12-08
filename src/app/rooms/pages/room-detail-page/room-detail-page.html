@@ -1,79 +1,97 @@
+<!-- Loading -->
 <div *ngIf="loadingRoom" class="loading-container">
   <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
 
-<div *ngIf="!loadingRoom && room" class="room-detail-wrapper">
-  <mat-card class="room-card">
+<!-- Contenido -->
+<div *ngIf="!loadingRoom && room" class="page-wrapper">
+  <mat-card class="page-card room-card">
+    <!-- Header habitación -->
     <div class="room-header">
-      <div>
-        <h2>{{ room.name }}</h2>
-        <p>{{ room.type }} · {{ room.capacity }} personas</p>
-        <p>
-          <strong>{{ room.pricePerNight | currency:'GTQ':'symbol':'1.0-0' }}</strong>
-          por noche
+      <div class="room-header-text">
+        <h2 class="page-title">{{ room.name }}</h2>
+        <p class="room-subtitle">
+          {{ room.type }} · {{ room.capacity }} personas
+        </p>
+        <p class="room-price">
+          {{ room.pricePerNight | currency:'GTQ':'symbol':'1.0-0' }}
+          <span class="room-price-unit">por noche</span>
         </p>
       </div>
 
       <img
         *ngIf="room.imageUrls && room.imageUrls.length > 0"
         [src]="room.imageUrls[0]"
-        alt="{{ room.name }}"
-        class="room-main-image" />
+        [alt]="room.name"
+        class="room-main-image"
+      />
     </div>
 
+    <!-- Amenidades -->
     <div class="amenities" *ngIf="room.amenities && room.amenities.length">
-      <h3>Amenidades</h3>
+      <h3 class="section-title">Amenidades</h3>
       <div class="amenities-list">
         <span class="amenity" *ngFor="let a of room.amenities">{{ a }}</span>
       </div>
     </div>
 
-    <mat-divider></mat-divider>
+    <mat-divider class="section-divider"></mat-divider>
 
-    <h3>Reservar</h3>
+    <!-- Reservar -->
+    <div class="reservation-section">
+      <h3 class="section-title">Reservar</h3>
 
-    <form [formGroup]="form" (ngSubmit)="submitReservation()" class="reservation-form">
-      <mat-form-field appearance="outline">
-        <mat-label>Fecha de entrada</mat-label>
-        <input matInput [matDatepicker]="pickerIn" formControlName="checkIn" />
-        <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
-        <mat-datepicker #pickerIn></mat-datepicker>
-        <mat-error *ngIf="form.controls.checkIn.hasError('required')">
-          Selecciona una fecha de entrada
-        </mat-error>
-      </mat-form-field>
+      <form
+        [formGroup]="form"
+        (ngSubmit)="submitReservation()"
+        class="reservation-form"
+      >
+        <mat-form-field appearance="outline" class="reservation-field">
+          <mat-label>Fecha de entrada</mat-label>
+          <input matInput [matDatepicker]="pickerIn" formControlName="checkIn" />
+          <mat-datepicker-toggle matSuffix [for]="pickerIn"></mat-datepicker-toggle>
+          <mat-datepicker #pickerIn></mat-datepicker>
+          <mat-error *ngIf="form.controls.checkIn.hasError('required')">
+            Selecciona una fecha de entrada
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Fecha de salida</mat-label>
-        <input matInput [matDatepicker]="pickerOut" formControlName="checkOut" />
-        <mat-datepicker-toggle matSuffix [for]="pickerOut"></mat-datepicker-toggle>
-        <mat-datepicker #pickerOut></mat-datepicker>
-        <mat-error *ngIf="form.controls.checkOut.hasError('required')">
-          Selecciona una fecha de salida
-        </mat-error>
-        <mat-error *ngIf="form.hasError('dateRange')">
-          La fecha de salida debe ser posterior a la entrada
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="reservation-field">
+          <mat-label>Fecha de salida</mat-label>
+          <input matInput [matDatepicker]="pickerOut" formControlName="checkOut" />
+          <mat-datepicker-toggle matSuffix [for]="pickerOut"></mat-datepicker-toggle>
+          <mat-datepicker #pickerOut></mat-datepicker>
+          <mat-error *ngIf="form.controls.checkOut.hasError('required')">
+            Selecciona una fecha de salida
+          </mat-error>
+          <mat-error *ngIf="form.hasError('dateRange')">
+            La fecha de salida debe ser posterior a la entrada
+          </mat-error>
+        </mat-form-field>
 
-      <div class="price-preview" *ngIf="nights && totalPrice">
-        <p>Noches: <strong>{{ nights }}</strong></p>
-        <p>Total: <strong>{{ totalPrice | currency:'GTQ':'symbol':'1.0-0' }}</strong></p>
-      </div>
+        <div class="price-preview" *ngIf="nights && totalPrice">
+          <p>Noches: <strong>{{ nights }}</strong></p>
+          <p>Total: <strong>{{ totalPrice | currency:'GTQ':'symbol':'1.0-0' }}</strong></p>
+        </div>
 
-      <button
-        mat-raised-button
-        color="primary"
-        type="submit"
-        [disabled]="creating || form.invalid">
-        <mat-progress-spinner
-          *ngIf="creating"
-          mode="indeterminate"
-          [diameter]="20"
-          class="btn-spinner">
-        </mat-progress-spinner>
-        <span *ngIf="!creating">Confirmar reserva</span>
-      </button>
-    </form>
+        <div class="reservation-actions">
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="confirm-btn"
+            [disabled]="creating"
+          >
+            <mat-progress-spinner
+              *ngIf="creating"
+              mode="indeterminate"
+              [diameter]="20"
+              class="btn-spinner">
+            </mat-progress-spinner>
+            <span *ngIf="!creating">Confirmar reserva</span>
+          </button>
+        </div>
+      </form>
+    </div>
   </mat-card>
 </div>
