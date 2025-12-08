@@ -60,8 +60,9 @@ ng serve -o
 ###Aplicación disponible en:
 http://localhost:4200
 
-###Crear usuario
+## Crear usuario
 Se debe crear un usuario en la pantalla de Inicio de sesion para poder realizar reservaciones de habitaciones
+Las habitaciones si son visibles sin autenticacion (Agregar habitaciones en api desde collection)
 
 
 ##DockerFile
