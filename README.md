@@ -39,6 +39,7 @@ Frontend del sistema de reservas de hotel desarrollado en **Angular 20**, consum
 
 ### 🧩 UX/UI
 - Angular Material
+- SweetAlert
 - Spinners, Snackbars, feedback visual
 - Errores globales manejados desde interceptor
 
@@ -56,6 +57,59 @@ npm install
 ###Iniciar servidor de desarrollo
 ng serve -o
 
-
 ###Aplicación disponible en:
 http://localhost:4200
+
+###Crear usuario
+Se debe crear un usuario en la pantalla de Inicio de sesion para poder realizar reservaciones de habitaciones
+
+
+##DockerFile
+Este Dockerfile utiliza una arquitectura multi-stage build para optimizar el tamaño final de la imagen y servir la aplicación Angular como una SPA usando Nginx.
+
+🔨 Etapa 1 — Build de Angular (node:22-alpine)
+
+Esta etapa compila el proyecto Angular en un entorno ligero basado en Node.
+
+FROM node:22-alpine AS build
+WORKDIR /app
+
+# Instala dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copia el código fuente y genera la build de producción
+COPY . .
+RUN npm run build -- --configuration production
+
+
+Descripción:
+
+Se usa node:22-alpine para minimizar el tamaño.
+
+Se instalan dependencias con npm install.
+
+Se genera la build optimizada con npm run build.
+
+El resultado final queda en:
+dist/hotel-front/browser
+
+🌐 Etapa 2 — Servidor Nginx para SPA (nginx:stable-alpine)
+
+Esta etapa copia la build generada y configura Nginx para servir correctamente la SPA.
+
+FROM nginx:stable-alpine
+WORKDIR /usr/share/nginx/html
+
+# Elimina configuración por defecto
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copia configuración personalizada
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copia la aplicación Angular compilada
+COPY --from=build /app/dist/hotel-front/browser /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
