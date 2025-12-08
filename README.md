@@ -61,8 +61,8 @@ ng serve -o
 http://localhost:4200
 
 ## Crear usuario
-Se debe crear un usuario en la pantalla de Inicio de sesion para poder realizar reservaciones de habitaciones
-Las habitaciones si son visibles sin autenticacion (Agregar habitaciones en api desde collection)
+Se debe crear un usuario en la pantalla de Inicio de sesion (registro) para poder realizar reservaciones de habitaciones
+, las habitaciones si son visibles sin autenticacion (Agregar habitaciones en api desde collection)
 
 
 
