@@ -73,7 +73,7 @@ Esta etapa compila el proyecto Angular en un entorno ligero basado en Node.
 
 FROM node:22-alpine AS build
 WORKDIR /app
-
+# Configuracion Docker
 # Instala dependencias
 COPY package*.json ./
 RUN npm install
