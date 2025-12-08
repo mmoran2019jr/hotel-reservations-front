@@ -65,15 +65,7 @@ Se debe crear un usuario en la pantalla de Inicio de sesion para poder realizar 
 Las habitaciones si son visibles sin autenticacion (Agregar habitaciones en api desde collection)
 
 
-##DockerFile
-Este Dockerfile utiliza una arquitectura multi-stage build para optimizar el tamaño final de la imagen y servir la aplicación Angular como una SPA usando Nginx.
 
-🔨 Etapa 1 — Build de Angular (node:22-alpine)
-
-Esta etapa compila el proyecto Angular en un entorno ligero basado en Node.
-
-FROM node:22-alpine AS build
-WORKDIR /app
 # Configuracion Docker
 ## Instala dependencias
 COPY package*.json ./
