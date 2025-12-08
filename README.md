@@ -74,11 +74,11 @@ Esta etapa compila el proyecto Angular en un entorno ligero basado en Node.
 FROM node:22-alpine AS build
 WORKDIR /app
 # Configuracion Docker
-# Instala dependencias
+## Instala dependencias
 COPY package*.json ./
 RUN npm install
 
-# Copia el código fuente y genera la build de producción
+## Copia el código fuente y genera la build de producción
 COPY . .
 RUN npm run build -- --configuration production
 
@@ -101,13 +101,13 @@ Esta etapa copia la build generada y configura Nginx para servir correctamente l
 FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
 
-# Elimina configuración por defecto
+## Elimina configuración por defecto
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copia configuración personalizada
+## Copia configuración personalizada
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copia la aplicación Angular compilada
+## Copia la aplicación Angular compilada
 COPY --from=build /app/dist/hotel-front/browser /usr/share/nginx/html
 
 EXPOSE 80
